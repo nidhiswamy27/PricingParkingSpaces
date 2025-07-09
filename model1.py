@@ -47,7 +47,7 @@ df['Location'] = df['Latitude'].astype(str) + ' ' + df['Longitude'].astype(str)
 print(len(df['Location'].unique()))
 print(len(df['SystemCodeNumber'].unique()))
 
-# Take a smaller slice of the full dataset (e.g. 5000 rows out of 18k)
+# Take a smaller slice of the full dataset (e.g. 5000 rows out of 18k) - RAM crash for full dataset
 df_small = df[["Timestamp", "Occupancy", "Capacity", "Location"]].iloc[:7000]
 
 # Save to a new CSV file for use in Pathway
@@ -58,10 +58,6 @@ class ParkingSchema(pw.Schema):
     Occupancy: int
     Capacity: int
     Location: str
-
-# Load the data as a simulated stream using Pathway's replay_csv function
-# This replays the CSV data at a controlled input rate to mimic real-time streaming
-# input_rate=1000 means approximately 1000 rows per second will be ingested into the stream.
 
 data = pw.demo.replay_csv("parking_stream_small.csv", schema=ParkingSchema, input_rate=1000)
 
@@ -126,7 +122,7 @@ result = data_with_time.join(
     pw.this.Price
 )
 
-# STEP 1: Extract updated prices from result
+# Extract updated prices from result
 updated_prices_clean = result.select(
     pw.this.Location,
     pw.this.Price
@@ -134,14 +130,14 @@ updated_prices_clean = result.select(
     NewPrice = pw.this.Price
 )
 
-# STEP 2: Join with static_update (LEFT JOIN)
+# Join with static_update (LEFT JOIN)
 joined = static_update.join(
     updated_prices_clean,
     pw.left.Location == pw.right.Location,
     how=pw.JoinMode.LEFT
 )
 
-# STEP 3: Use updated prices if present, else keep old ones
+# Use updated prices if present, else keep old ones
 new_static_update = joined.select(
     Location = pw.left.Location,
     Price = pw.coalesce(pw.right.NewPrice, pw.left.Price)
