@@ -23,12 +23,10 @@ Model2:
     B --> C[Parse Columns & Encode<br>Location, VehicleType, TrafficLevel]
     C --> D[Add Timestamp & Day Columns<br>strptime, .dt formatting]
     D --> E[Tumbling Window Aggregation<br>30-min by Location]
-
     E --> F[Reduce & Compute Aggregates<br>Occupancy, Capacity, QueueLength,<br>Encoded features, Count]
     F --> G[Compute Averages<br>Occupancy / Capacity, etc.]
     G --> H[Calculate Normalized Demand<br>Weighted Sum Formula]
     H --> I[Calculate Final Price<br>BasePrice * (1 + λ * Demand)]
-
     I --> J[Result Table<br>Time, Location, Price]
     J --> K[Sink: compute_and_print<br>(or jsonlines/write)]
 
