@@ -1,6 +1,8 @@
 # Price graphs
-![model2](https://github.com/user-attachments/assets/978dad40-5b0c-4a82-bb85-f5f76378de76)
+Model1:
 ![model1](https://github.com/user-attachments/assets/34b4807c-6d74-4da1-86ef-8ad43d3966be)
+Model2:
+![model2](https://github.com/user-attachments/assets/978dad40-5b0c-4a82-bb85-f5f76378de76)
 
 # PricingParkingSpaces
 Urban parking spaces are a limited and highly demanded resource. Prices that remain static throughout the day can lead to inefficiencies — either overcrowding or underutilization. To improve utilization, dynamic pricing based on demand, competition, and real-time conditions is crucial. This project simulates such a system: an intelligent, data-driven pricing engine for parking spaces. 
